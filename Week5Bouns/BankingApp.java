@@ -43,18 +43,6 @@ public class BankingApp extends Frame{
 		print(text);
 	}
 
-	//wait delay
-	public static void wait(int ms)
-	{
-		try
-		{
-			Thread.sleep(ms);
-		}
-		catch(InterruptedException ex)
-		{
-			Thread.currentThread().interrupt();
-		}
-	}
 
 	/**
 	 * This method takes all the necessary steps when a client is added.
