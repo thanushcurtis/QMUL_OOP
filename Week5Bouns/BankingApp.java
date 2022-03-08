@@ -71,11 +71,36 @@ public class BankingApp extends Frame{
 	public Boolean removeClient(String name){
 
 		int index = agent.getClientindex(name);
-		System.out.println(index);
-		clientButtonsPanel.remove(index);
 		Boolean success = agent.removeClient(name);
+		clientButtonsPanel.removeAll();
 		return success;
 	}
+
+	public void addButtons()
+	{
+		int numClients = agent.getNumberOfClients();
+		System.out.println(numClients);
+		for(int i=0; i<= numClients-1;i++)
+		{
+			int k=i;
+			Button btn = new Button("Client " + (i+1));
+			// print client's name and info
+			btn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent s){
+					if(s.getSource()==btn)
+					{
+						print(agent.getClientInfo(k));
+					}
+				}
+			});
+			clientButtonsPanel.add(btn);
+			this.setVisible(true);
+
+		}
+
+	}
+
+
 
 
 	public BankingApp(){
@@ -138,6 +163,7 @@ public class BankingApp extends Frame{
 						{
 							win.print_output("Success");
 							win.dispose();
+							addButtons();
 						}
 						else
 						{
