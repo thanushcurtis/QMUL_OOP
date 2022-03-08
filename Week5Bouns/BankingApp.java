@@ -79,7 +79,6 @@ public class BankingApp extends Frame{
 	public void addButtons()
 	{
 		int numClients = agent.getNumberOfClients();
-		System.out.println(numClients);
 		for(int i=0; i<= numClients-1;i++)
 		{
 			int k=i;
