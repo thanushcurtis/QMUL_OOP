@@ -23,6 +23,12 @@ public class Account{
         counter+=3;
     }
 
+    public void AddAccount(int balance)
+    {
+        this.balance=balance;
+        counter+=4;
+    }
+
     public int getBalance(){
         return this.balance;
     }

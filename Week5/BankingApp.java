@@ -116,7 +116,6 @@ public class BankingApp extends Frame{
 
 
 
-
 		// deposit window
 		Frame deposit = new Frame();
 		deposit.setSize(250,400);
