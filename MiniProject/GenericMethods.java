@@ -1,3 +1,6 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public interface GenericMethods {
@@ -26,5 +29,36 @@ public interface GenericMethods {
         Scanner scanner = new Scanner(System.in);
         System.out.println(message); //asks the questions passed when the method called
         return scanner.nextLong();
+    }
+
+    //date validation
+    static Date validateJavaDate(String strDate)
+    {
+        /* Check if date is 'null' */
+        if (strDate.trim().equals(""))
+        {
+            return validateJavaDate(GenericMethods.ask_questions("Enter a Valid Date!!!"));
+
+        }
+        else
+        {
+
+            //Set preferred date format,
+            SimpleDateFormat simpleDateFmt = new SimpleDateFormat("MM/dd/yyyy");
+            simpleDateFmt.setLenient(false);
+            /* Create Date object
+             * parse the string into date
+             */
+            try
+            {
+                return simpleDateFmt.parse(strDate);
+            }
+            /* Date format is invalid */
+            catch (ParseException e)
+            {
+                return validateJavaDate(GenericMethods.ask_questions("Enter a Valid Date!!!"));
+            }
+            /* Return true if date format is valid */
+        }
     }
 }

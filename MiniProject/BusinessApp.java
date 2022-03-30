@@ -49,19 +49,19 @@ public class BusinessApp implements GenericMethods {
             int FunChoice = FunQuestion();
             if(FunChoice==1)
             {
-                GetCustomerDetails();
+                database.GetCustomerDetails();
             }
             else if(FunChoice==2)
             {
-                SetCustomer();
+                database.SetNewCustomer();
             }
             else if(FunChoice==3)
             {
-                GetSupplierDetails();
+                database.GetSupplierDetails();
             }
             else if(FunChoice==4)
             {
-                SetSupplier();
+                database.SetNewSupplier();
             }
             else if(FunChoice==5)
             {
@@ -71,40 +71,6 @@ public class BusinessApp implements GenericMethods {
         GenericMethods.print("thank you");
         System.exit(0);
 
-    }
-
-    //method for getting customer's details
-    public  void GetCustomerDetails()
-    {
-        String input =GenericMethods.ask_questions("Please Enter Customer Name or Reference to find the Details");
-        database.GetCustomerDetails(input);
-
-    }
-
-    //method for input new customer
-    public void SetCustomer()
-    {
-        String name =GenericMethods.ask_questions("Please enter the Name :");
-        String email = GenericMethods.ask_questions("Please enter the email :");
-        Long num = GenericMethods.input_phone("Please enter the Mobile Number :");
-        String Address = GenericMethods.ask_questions("Please enter the Address :");
-        database.SetNewCustomer(name, email, num, Address);
-    }
-
-    //method for getting supplier's details
-    public void GetSupplierDetails()
-    {
-        String input =GenericMethods.ask_questions("Please Enter Name :");
-        database.GetSupplierDetails(input);
-    }
-
-    //method for input new supplier
-    public void SetSupplier()
-    {
-        String name =GenericMethods.ask_questions("Please enter the Name :");
-        String email = GenericMethods.ask_questions("Please enter the email :");
-        String Address = GenericMethods.ask_questions("Please enter the Address :");
-        database.SetNewSupplier(name, email,Address);
     }
 
 

@@ -5,6 +5,7 @@ public class Database implements GenericMethods {
     private  static int numCustomers;
     private final ArrayList<Customer> customers;
     private final ArrayList<Supplier> suppliers;
+    private final ArrayList<Product> products;
 
 
     //database constructor
@@ -12,11 +13,12 @@ public class Database implements GenericMethods {
 
         customers= new ArrayList<>(MAX_CUSTOMERS);
         suppliers =new ArrayList<>();
+        products = new ArrayList<>();
 
     }
 
     //view customer
-    public  void GetCustomerDetails(String input)
+    public  void GetCustomerDetails()
     {
 
 
@@ -26,6 +28,7 @@ public class Database implements GenericMethods {
         }
         else
         {
+            String input =GenericMethods.ask_questions("Please Enter Customer Name or Reference to find the Details");
             for(Customer customer : customers)
             {
                 if(input.equals(customer.getAcc_num())||input.equals(customer.getName()))
@@ -44,11 +47,15 @@ public class Database implements GenericMethods {
     }
 
     // input new details for customers
-    public void SetNewCustomer(String name, String email, Long mobile_num, String Address)
+    public void SetNewCustomer()
     {
+        String name =GenericMethods.ask_questions("Please enter the Name :");
+        String email = GenericMethods.ask_questions("Please enter the email :");
+        Long num = GenericMethods.input_phone("Please enter the Mobile Number :");
+        String Address = GenericMethods.ask_questions("Please enter the Address :");
         if(numCustomers<=MAX_CUSTOMERS)
         {
-            Customer c = new Customer(name,email, mobile_num,Address);
+            Customer c = new Customer(name,email, num,Address);
             customers.add(c);
             numCustomers++;
             GenericMethods.print("Customer Created Successfully..");
@@ -60,8 +67,12 @@ public class Database implements GenericMethods {
     }
 
     // input new Supplier
-    public void SetNewSupplier(String name,String address, String email)
+    public void SetNewSupplier()
     {
+        String name =GenericMethods.ask_questions("Please enter the Name :");
+        String email = GenericMethods.ask_questions("Please enter the email :");
+        String address = GenericMethods.ask_questions("Please enter the Address :");
+
         Supplier s = new Supplier(name, address, email);
         String ans=GenericMethods.ask_questions("Please Enter the Type of Supplier");
         GenericMethods.print("Types are: Fruits | Vegetables | Dairy");
@@ -70,14 +81,16 @@ public class Database implements GenericMethods {
     }
 
     // get details of the supplier
-    public void GetSupplierDetails(String input)
+    public void GetSupplierDetails()
     {
+
         if(suppliers.size()==0)
         {
             GenericMethods.print("Sorry :( We don't have any supplier's yet..");
         }
         else
         {
+            String input =GenericMethods.ask_questions("Please Enter Name :");
             for(Supplier supplier : suppliers)
             {
                 if(input.equals(supplier.getName()))
