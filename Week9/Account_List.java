@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Account_List {
 
-    private ArrayList<Account1> accounts;
+    private final ArrayList<Account1> accounts;
 
 
     public Account_List()
@@ -62,7 +62,7 @@ public class Account_List {
     public Account1 Low_Deposit(int amount)
     {
         int index=0;
-        int previous=accounts.get(0).getBalance();;
+        int previous=accounts.get(0).getBalance();
         for(int i =0; i<accounts.size(); i++)
         {
             int balance = accounts.get(i).getBalance();
@@ -81,7 +81,7 @@ public class Account_List {
     public Account1 Get_Low_Deposit()
     {
         int index=0;
-        int previous=accounts.get(0).getBalance();;
+        int previous=accounts.get(0).getBalance();
         for(int i =0; i<accounts.size(); i++)
         {
             int balance = accounts.get(i).getBalance();
@@ -98,14 +98,12 @@ public class Account_List {
     public Account1 getAccount_Id(int id) throws AttributeNotFoundException  {
 
         Account1 acc=null;
-        Boolean found=false;
-        for(int i=0; i<accounts.size();i++)
-        {
-            if(accounts.get(i).getUniqueId()==id)
-            {
+        boolean found=false;
+        for (Account1 account : accounts) {
+            if (account.getUniqueId() == id) {
                 System.out.println("Account Found");
-                acc = accounts.get(i);
-                found=true;
+                acc = account;
+                found = true;
 
             }
 
@@ -120,7 +118,7 @@ public class Account_List {
     public void Remove_Account_Id(int id) throws AttributeNotFoundException {
 
 
-        Boolean found=false;
+        boolean found=false;
         for(int i=0; i<accounts.size();i++)
         {
 
@@ -146,8 +144,8 @@ public class Account_List {
     public void print_array()
     {
         System.out.print("[");
-        for(int i=0; i < accounts.size(); i++){
-            System.out.print(String.valueOf(accounts.get(i).getUniqueId()));
+        for (Account1 account : accounts) {
+            System.out.print(account.getUniqueId());
             System.out.print(", ");
         }
         System.out.print("]");

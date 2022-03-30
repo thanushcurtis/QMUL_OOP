@@ -2,10 +2,10 @@ public class User {
 
     private String name;
     private String email;
-    private int mobile_num;
+    private Long mobile_num;
     private String Address;
 
-    public User(String name, String email, int num, String Address){
+    public User(String name, String email, Long num, String Address){
         this.name=name;
         this.email=email;
         this.mobile_num=num;
@@ -35,11 +35,11 @@ public class User {
         return this.email;
     }
 
-    public void setNum(int num){
+    public void setNum(Long num){
         this.mobile_num=num;
     }
 
-    public int getNum(){
+    public Long getNum(){
         return this.mobile_num;
 
     }

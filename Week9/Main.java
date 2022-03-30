@@ -7,7 +7,7 @@ public class Main {
     }
 
     //Array List
-    private Account_List acc_list = new Account_List();
+    private final Account_List acc_list = new Account_List();
 
 
     // Q1 Destructive method
@@ -35,14 +35,12 @@ public class Main {
     {
 
         ArrayList<String> list_1 = new ArrayList<>();
-        for (int i=0; i< array.size(); i++)
-        {
+        for (String s : array) {
 
-            String item = String.valueOf(array.get(i));
+            String item = String.valueOf(s);
             int item_length = item.length();
-            if(item_length>=n)
-            {
-                list_1.add(array.get(i));
+            if (item_length >= n) {
+                list_1.add(s);
             }
         }
         return list_1;
@@ -69,18 +67,14 @@ public class Main {
 
     public static <T> ArrayList<T> gen_con_sort_array(ArrayList<T> list,T m, T n)
     {
-        ArrayList<T> list_1 = new ArrayList<T>();
-        int array_size = list.size();
+        ArrayList<T> list_1 = new ArrayList<>();
         boolean first_occur  = false;
-        for(int i=0; i<array_size; i++) {
+        for (T e : list) {
 
-            T e = list.get(i);
             if (e.equals(m) && !first_occur) {
                 first_occur = true;
                 list_1.add(n);
-            }
-            else
-            {
+            } else {
                 list_1.add(e);
             }
         }
@@ -145,7 +139,7 @@ public class Main {
         System.out.println(list);
         System.out.println("Output :");
         System.out.println();
-        System.out.println(gen_con_sort_array(list,4,7));
+        System.out.println(gen_des_sort_array(list,4,7));
 
 
     }
