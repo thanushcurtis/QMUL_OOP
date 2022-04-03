@@ -1,6 +1,6 @@
 public class BusinessApp implements GenericMethods {
 
-    Database database = new Database();
+    private final Database database = new Database();
 
     public static void main(String[] args)
     {
@@ -72,7 +72,6 @@ public class BusinessApp implements GenericMethods {
         System.exit(0);
 
     }
-
 
     public BusinessApp(){
 
