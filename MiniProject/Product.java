@@ -7,12 +7,6 @@ public class Product {
 
 
     // new constructor
-    public Product(String name)
-    {
-        this.name=name;
-    }
-
-    // new constructor
     public Product(String name, double salesprice, double costprice, int stock)
     {
         this.name=name;
@@ -30,9 +24,9 @@ public class Product {
         return this.name;
     }
 
-    public void setSalesPrice(double price)
+    public void setSalesPrice()
     {
-        this.SalesPrice=price;
+        this.SalesPrice=CostsPrice*0.7;
     }
 
     public double getSalesPrice()

@@ -1,6 +1,9 @@
+import java.util.ArrayList;
 public class Supplier extends User {
 
     private int SupplierType;
+    private ArrayList<Invoice>  purchase_invoices = new ArrayList<>();
+    private double total_owe;
 
     public Supplier(String name,String add,String email){
         super(name,add,email);
@@ -49,5 +52,13 @@ public class Supplier extends User {
 
         return "General";
 
+    }
+
+    public void addInvoice(Invoice inc)
+    {
+        this.purchase_invoices.add(inc);
+        for (Invoice purchase_invoice : purchase_invoices) {
+            this.total_owe += purchase_invoice.GetTotalAmount();
+        }
     }
 }

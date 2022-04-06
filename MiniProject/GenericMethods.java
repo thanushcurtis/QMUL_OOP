@@ -23,6 +23,10 @@ public interface GenericMethods {
     {
         return Integer.parseInt(ask_questions(message));
     }
+    static double input_double(String message) //converting string to method
+    {
+        return Double.parseDouble(ask_questions(message));
+    }
 
     static long input_phone(String message) //converting string to method
     {

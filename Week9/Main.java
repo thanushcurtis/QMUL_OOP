@@ -65,6 +65,8 @@ public class Main {
         return list;
     }
 
+
+
     public static <T> ArrayList<T> gen_con_sort_array(ArrayList<T> list,T m, T n)
     {
         ArrayList<T> list_1 = new ArrayList<>();
@@ -135,12 +137,12 @@ public class Main {
         list.add(4);
         list.add(2);
         list.add(2);
+
         System.out.println("Test Array ");
         System.out.println(list);
         System.out.println("Output :");
         System.out.println();
         System.out.println(gen_des_sort_array(list,4,7));
-
 
     }
 
@@ -186,7 +188,7 @@ public class Main {
         System.out.println();
         System.out.println("Account with Lowest Balance: "+acc_list.Get_Low_Deposit().getBalance()+" New amount deposited into this account, new balance is "+ acc_list.Low_Deposit(150).getBalance());
         acc_list.getAccount_Id(1000);
-        acc_list.Remove_Account_Id(1001);
+        acc_list.Remove_Account_Id(10097);
         System.out.println("Items in the array after removal with their unique id's");
         acc_list.print_array();
 

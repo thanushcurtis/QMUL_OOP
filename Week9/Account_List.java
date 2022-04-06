@@ -13,6 +13,7 @@ public class Account_List {
     }
 
 
+
     public void addAccount(Account1 a)
     {
         accounts.add(a);
@@ -127,7 +128,6 @@ public class Account_List {
 
                 found=true;
                 accounts.remove(i);
-                i--;
                 System.out.println("Account Removed");
 
 
