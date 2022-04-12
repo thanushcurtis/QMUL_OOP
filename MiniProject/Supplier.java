@@ -61,4 +61,14 @@ public class Supplier extends User {
             this.total_owe += purchase_invoice.GetTotalAmount();
         }
     }
+
+    public ArrayList<Invoice> getPurchase_invoices()
+    {
+        return this.purchase_invoices;
+    }
+
+    public double getTotal_owe()
+    {
+        return this.total_owe;
+    }
 }

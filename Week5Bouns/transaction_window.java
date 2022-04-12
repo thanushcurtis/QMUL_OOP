@@ -13,7 +13,7 @@ public class transaction_window extends Frame {
     }
 
     public transaction_window() {
-        this.setSize(250, 400);
+        this.setSize(250, 500);
         this.setLayout(new FlowLayout());
         label.setAlignment(Label.LEFT);
         this.add(label);

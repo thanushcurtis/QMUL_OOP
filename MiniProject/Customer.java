@@ -37,6 +37,12 @@ public class Customer extends User{
     }
 
 
+    public String getInvoiceRef(int index)
+    {
+        return this.sales_invoices.get(index).GetInvRef();
+    }
+
+
 
 
 

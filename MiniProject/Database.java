@@ -42,6 +42,65 @@ public class Database implements GenericMethods {
         }
     }
 
+    //view customer
+    public Boolean GetCustomerDetailsGUI(String input) {
+
+        boolean found=false;
+        if (customers.size() == 0) {
+            GenericMethods.print("Sorry :( We don't have any customer's yet..");
+        } else {
+            for (Customer customer : customers) {
+                if (input.equals(customer.getAcc_num()) || input.equals(customer.getName())) {
+                    found=true;
+                } else {
+                    GenericMethods.print("Customer not found");
+                }
+            }
+        }
+
+        return found;
+    }
+
+
+    //return customer name
+    public String GetCustomerName(Customer cus)
+    {
+        return cus.getName();
+    }
+
+    //return customer email
+    public String GetCustomerEmail(Customer cus)
+    {
+        return cus.getEmail();
+    }
+
+    //return customer address
+    public String GetCustomerAddress(Customer cus)
+    {
+        return cus.GetAddress();
+    }
+
+    //return customer total due
+    public double GetCustomerDue(Customer cus)
+    {
+        return cus.getTotal_due();
+    }
+
+
+    //set customer
+    public Boolean setNewCustomerGUI(String name,String email,Long num,String Address){
+        boolean success=false;
+        if (numCustomers <= MAX_CUSTOMERS) {
+            Customer c = new Customer(name, email, num, Address);
+            customers.add(c);
+            numCustomers++;
+            success=true;
+        }
+
+
+        return success;
+    }
+
     // input new details for customers
     public void SetNewCustomer() {
         String name = GenericMethods.ask_questions("Please enter the Name :");
@@ -92,13 +151,66 @@ public class Database implements GenericMethods {
 
     }
 
+    //return customer name
+    public String GetSupplierName(Supplier s)
+    {
+        return s.getName();
+    }
+
+    //return customer email
+    public String GetSupplierEmail(Supplier s)
+    {
+        return s.getEmail();
+    }
+
+    //return customer address
+    public String GetSupplierAddress(Supplier s)
+    {
+        return s.GetAddress();
+    }
+
+    //return customer total due
+    public double GetSupplierOwe(Supplier s)
+    {
+        return s.getTotal_owe();
+    }
+
+    public String GetSupplierType(Supplier s)
+    {
+        return s.GetType();
+    }
+    public Boolean GetSupplierDetailsGUI(String input) {
+
+        boolean found=false;
+        if (suppliers.size() == 0) {
+            GenericMethods.print("Sorry :( We don't have any customer's yet..");
+        } else {
+            for (Supplier supplier : suppliers) {
+                if (input.equals(supplier.getName())) {
+                    found=true;
+                } else {
+                    GenericMethods.print("Supplier not found");
+                }
+            }
+        }
+
+        return found;
+    }
+
     public void addCustomer(Customer c)
     {
+
         customers.add(c);
+        System.out.println(customers);
     }
     public void addProduct(Product p)
     {
         products.add(p);
+    }
+
+    public void addSupplier(Supplier s)
+    {
+        suppliers.add(s);
     }
 
     //set products
@@ -135,8 +247,6 @@ public class Database implements GenericMethods {
         for (Customer customer : customers) {
             if (name.equals(customer.getName()) || name.equals(customer.getAcc_num())) {
                 c = customer;
-            } else {
-                c = null;
             }
         }
 
@@ -151,8 +261,6 @@ public class Database implements GenericMethods {
         for (Supplier supplier : suppliers) {
             if (name.equals(supplier.getName())) {
                 s = supplier;
-            } else {
-                s = null;
             }
         }
 
@@ -199,6 +307,26 @@ public class Database implements GenericMethods {
         }
 
 
+    }
+
+    //return invoice array
+    public ArrayList<Invoice> InvoiceArray(Customer c)
+    {
+        return  c.getSales_invoices();
+    }
+
+    //return invoice array supplier
+    public ArrayList<Invoice> InvoiceArraySupplier(Supplier s)
+    {
+        return  s.getPurchase_invoices();
+    }
+
+
+
+    //return one invoice
+    public Invoice returnInvoice(Customer c, int index)
+    {
+        return c.getSales_invoices().get(index);
     }
 
 
