@@ -24,9 +24,9 @@ public class Product {
         return this.name;
     }
 
-    public void setSalesPrice()
+    public void setSalesPrice(double price)
     {
-        this.SalesPrice=CostsPrice*0.7;
+        this.SalesPrice=price;
     }
 
     public double getSalesPrice()

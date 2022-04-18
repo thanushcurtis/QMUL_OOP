@@ -2,7 +2,7 @@ import java.util.Date;
 
 
 import java.util.ArrayList;
-public class Database implements GenericMethods {
+public class Database extends GUIMethods implements GenericMethods {
 
     private static final int MAX_CUSTOMERS = 100;
     private static int numCustomers;
@@ -130,6 +130,17 @@ public class Database implements GenericMethods {
         suppliers.add(s);
     }
 
+    public void setNewSupplierGUI(String name,String email,String type,String Address){
+        Supplier s = new Supplier(name,Address,email);
+        s.SetType(type);
+        suppliers.add(s);
+
+
+    }
+
+
+
+
     // get details of the supplier
     public void GetSupplierDetails() {
 
@@ -188,8 +199,7 @@ public class Database implements GenericMethods {
             for (Supplier supplier : suppliers) {
                 if (input.equals(supplier.getName())) {
                     found=true;
-                } else {
-                    GenericMethods.print("Supplier not found");
+                    break;
                 }
             }
         }
@@ -201,7 +211,6 @@ public class Database implements GenericMethods {
     {
 
         customers.add(c);
-        System.out.println(customers);
     }
     public void addProduct(Product p)
     {
@@ -223,6 +232,13 @@ public class Database implements GenericMethods {
         this.products.add(new Product(name,salesprice,costsprice,stock));
     }
 
+    public void addProdctsGUI(String name, Double salesprice, Double costsprice, int stock)
+    {
+
+        this.products.add(new Product(name,salesprice,costsprice,stock));
+
+    }
+
     //product details
     public ArrayList<Product> getProducts()
     {
@@ -235,8 +251,20 @@ public class Database implements GenericMethods {
         return product.getSalesPrice();
     }
 
-    public Product getProduct(int index){
-        return products.get(index);
+    public Product getProduct(int index)
+    {
+        return this.products.get(index);
+    }
+
+    public Product getProductByName(String name){
+
+        Product p = null;
+        for (Product product : products) {
+            if (name.equals(product.getName())) {
+                p = product;
+            }
+        }
+        return p;
     }
 
 
@@ -308,6 +336,7 @@ public class Database implements GenericMethods {
 
 
     }
+
 
     //return invoice array
     public ArrayList<Invoice> InvoiceArray(Customer c)

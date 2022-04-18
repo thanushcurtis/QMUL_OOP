@@ -12,6 +12,8 @@ public class InputWindow extends JFrame{
     JLabel Email = new JLabel("Email: ");
     JLabel Address = new JLabel("Address: ");
     JLabel Num = new JLabel("Telephone: ");
+
+
     public static void print_output(String text){
         text_area.setText(text);
        text_area.setEditable(false);
@@ -65,6 +67,26 @@ public class InputWindow extends JFrame{
     public void activate(){
         this.setLocationRelativeTo(null); // Centers the window on the screen
         this.setVisible(true);
+    }
+
+    public void setLabel(String title)
+    {
+        Num.setText(title);
+    }
+
+    public void setLabelGeneral(String title, JLabel label)
+    {
+        label.setText(title);
+    }
+
+    public void removeArea()
+    {
+        this.remove(text_area);
+    }
+
+    public void removeButton()
+    {
+        this.remove(submit);
     }
 
 }

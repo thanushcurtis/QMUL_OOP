@@ -36,7 +36,6 @@ public class BusinessApp extends JFrame implements GenericMethods {
     }
 
 
-
     //getting which function to operate from user
     public static int FunQuestion(){
         int FunctionInput=0;
@@ -110,7 +109,6 @@ public class BusinessApp extends JFrame implements GenericMethods {
         database.addSupplier(s);
         database.addProduct(p);
         database.addProduct(p1);
-        System.out.println(database.getProducts().size());
 
         //Intro();
         //ChooseFunction();
@@ -185,21 +183,14 @@ public class BusinessApp extends JFrame implements GenericMethods {
                                            }
                                        });
                                        invoicePanel.getContentPane().add(InvoiceButton);
-
-
-
                                    }
-
-
                                }
                            });
-
                        }
                        else
                        {
                            win.set_text("Customer not found");
                        }
-
                    }
                });
 
@@ -247,12 +238,7 @@ public class BusinessApp extends JFrame implements GenericMethods {
                                             }
                                         });
                                         invoicePanel.getContentPane().add(InvoiceButton);
-
-
-
                                     }
-
-
                                 }
                             });
                         }
@@ -301,17 +287,147 @@ public class BusinessApp extends JFrame implements GenericMethods {
 
         JButton EnterSupplier = new JButton("Enter Supplier");
         EnterSupplier.setBounds(100,100,50,50);
+        EnterSupplier.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                InputWindow win = new InputWindow();
+                win.activate();
+                win.setSize(350,400);
+                win.setTitle("Enter New Supplier");
+                win.setLabel("Type");
+                win.addSubmitListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String name = win.name.getText();
+                        String email = win.email.getText();
+                        String address = win.address.getText();
+                        String type = win.num.getText();
+                        database.setNewSupplierGUI(name,email,type,address);
+                    }
+                });
+
+                //win.dispose();
+            }
+        });
+
 
         JButton EnterProducts = new JButton("Enter Products");
         EnterProducts.setBounds(100,100,50,50);
+        EnterProducts.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                InputWindow win = new InputWindow();
+                win.activate();
+                win.setTitle("Products");
+                JButton ViewProduct = new JButton("View Product");
+                win.setLabelGeneral("Sales Price ",win.Email);
+                win.setLabelGeneral("Costs Price ",win.Address);
+                win.setLabelGeneral("Stock Count ",win.Num);
+                win.removeArea();
+                win.add(ViewProduct);
+                win.addSubmitListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String name = win.name.getText();
+                        Double salesPrice = Double.parseDouble(win.email.getText());
+                        Double costsPrice = Double.parseDouble(win.address.getText());
+                        int stockcount = Integer.parseInt(win.num.getText());
+                        database.addProdctsGUI(name,salesPrice,costsPrice,stockcount);
+
+                    }
+                });
+                ViewProduct.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        View_Window win = new View_Window();
+                        win.activate();
+                        win.setSize(250,200);
+                        win.setLabelTitle("Enter Product Name ");
+                        win.addSubmitListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                win.print_output("");
+                                String product_name = win.get_name();
+                                Product p = database.getProductByName(product_name);
+                                if(p!=null)
+                                {
+                                    win.addSubmitListener(new ActionListener() {
+                                        @Override
+                                        public void actionPerformed(ActionEvent e) {
+                                            InputWindow win = new InputWindow();
+                                            win.activate();
+                                            win.setTitle("Product Details");
+                                            win.setLabelGeneral("Sales Price ",win.Email);
+                                            win.setLabelGeneral("Costs Price ",win.Address);
+                                            win.setLabelGeneral("Stock Count ",win.Num);
+                                            win.removeArea();
+                                            win.name.setText(p.getName());
+                                            win.email.setText("£"+p.getSalesPrice());
+                                            win.address.setText("£"+p.getCostsPrice());
+                                            win.num.setText(String.valueOf(p.getStockCount()));
+                                            win.removeButton();
+                                        }
+                                    });
+                                }
+                                else
+                                {
+                                    win.print_output("Product Not Found");
+                                    win.clear();
+                                }
+                                win.clear();
+                            }
+                        });
+                    }
+                });
+            }
+        });
 
         JButton AddInvoice = new JButton("Add Invoice");
         AddInvoice.setBounds(100,100,50,50);
+        AddInvoice.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                InvoiceGUI  win = new InvoiceGUI();
+                win.activate();
+                win.addSubmitListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        GenericMethods.print(win.get_selection());
+                        String choice = win.get_selection();
+                        if(choice.equals("c"))
+                        {
+                            String name = win.get_input_text();
+                            GenericMethods.print(name);
+                            Customer c = database.returnCustomer(name);
+                            while(c!=null)
+                            {
+                                GenericMethods.print("test");
 
+                            }
+                            win.set_text("Customer not found!!!");
+                            win.Name.setText("");
+
+                        }
+                        else if(choice.equals("s"))
+                        {
+                            String name = win.get_input_text();
+                            GenericMethods.print(name);
+                            Supplier s = database.returnSupplier(name);
+                            while(s!=null)
+                            {
+                                GenericMethods.print("test");
+
+                            }
+                            win.set_text("Supplier not found!!!");
+                            win.Name.setText("");
+                        }
+                    }
+                });
+            }
+        });
 
         JButton StopProgram = new JButton("Stop Program");
         StopProgram.setBounds(100,100,50,100);
-
 
 
         MainPanel.add(CustomerButton);
@@ -321,11 +437,6 @@ public class BusinessApp extends JFrame implements GenericMethods {
         MainPanel.add(EnterProducts);
         MainPanel.add(AddInvoice);
         MainFrame.add(BorderLayout.SOUTH,StopProgram);
-
-
-
-
-
 
 
         MainFrame.setVisible(true);

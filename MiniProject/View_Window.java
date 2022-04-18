@@ -12,7 +12,7 @@ public class View_Window extends JFrame {
     JTextField input_name = new JTextField("", 20);
     JLabel label = new JLabel("Enter Customer Name or Reference: ");
 
-    public static void print_output(String text){
+    public void print_output(String text){
         transaction_area.setText(text);
         transaction_area.setEditable(false);
     }
@@ -56,6 +56,11 @@ public class View_Window extends JFrame {
     public void clear()
     {
         input_name.setText("");
+    }
+
+    public void setLabelTitle(String title)
+    {
+        this.label.setText(title);
     }
 
 }
