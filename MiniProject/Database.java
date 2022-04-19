@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Database extends GUIMethods implements GenericMethods {
 
     private static final int MAX_CUSTOMERS = 100;
-    private static int numCustomers;
+    public static int numCustomers;
     private final ArrayList<Customer> customers;
     private final ArrayList<Supplier> suppliers;
     private final ArrayList<Product> products;
@@ -42,26 +42,6 @@ public class Database extends GUIMethods implements GenericMethods {
         }
     }
 
-    //view customer
-    public Boolean GetCustomerDetailsGUI(String input) {
-
-        boolean found=false;
-        if (customers.size() == 0) {
-            GenericMethods.print("Sorry :( We don't have any customer's yet..");
-        } else {
-            for (Customer customer : customers) {
-                if (input.equals(customer.getAcc_num()) || input.equals(customer.getName())) {
-                    found=true;
-                } else {
-                    GenericMethods.print("Customer not found");
-                }
-            }
-        }
-
-        return found;
-    }
-
-
     //return customer name
     public String GetCustomerName(Customer cus)
     {
@@ -86,20 +66,6 @@ public class Database extends GUIMethods implements GenericMethods {
         return cus.getTotal_due();
     }
 
-
-    //set customer
-    public Boolean setNewCustomerGUI(String name,String email,Long num,String Address){
-        boolean success=false;
-        if (numCustomers <= MAX_CUSTOMERS) {
-            Customer c = new Customer(name, email, num, Address);
-            customers.add(c);
-            numCustomers++;
-            success=true;
-        }
-
-
-        return success;
-    }
 
     // input new details for customers
     public void SetNewCustomer() {
@@ -129,17 +95,6 @@ public class Database extends GUIMethods implements GenericMethods {
         s.SetType(ans);
         suppliers.add(s);
     }
-
-    public void setNewSupplierGUI(String name,String email,String type,String Address){
-        Supplier s = new Supplier(name,Address,email);
-        s.SetType(type);
-        suppliers.add(s);
-
-
-    }
-
-
-
 
     // get details of the supplier
     public void GetSupplierDetails() {
@@ -190,22 +145,6 @@ public class Database extends GUIMethods implements GenericMethods {
     {
         return s.GetType();
     }
-    public Boolean GetSupplierDetailsGUI(String input) {
-
-        boolean found=false;
-        if (suppliers.size() == 0) {
-            GenericMethods.print("Sorry :( We don't have any customer's yet..");
-        } else {
-            for (Supplier supplier : suppliers) {
-                if (input.equals(supplier.getName())) {
-                    found=true;
-                    break;
-                }
-            }
-        }
-
-        return found;
-    }
 
     public void addCustomer(Customer c)
     {
@@ -230,13 +169,6 @@ public class Database extends GUIMethods implements GenericMethods {
         double costsprice = GenericMethods.input_double("Enter Costs Price?");
         int stock = GenericMethods.input_int("Enter how you have in Stock?");
         this.products.add(new Product(name,salesprice,costsprice,stock));
-    }
-
-    public void addProdctsGUI(String name, Double salesprice, Double costsprice, int stock)
-    {
-
-        this.products.add(new Product(name,salesprice,costsprice,stock));
-
     }
 
     //product details
@@ -267,7 +199,6 @@ public class Database extends GUIMethods implements GenericMethods {
         return p;
     }
 
-
     // return customer object
     public Customer returnCustomer(String name)
     {
@@ -281,7 +212,6 @@ public class Database extends GUIMethods implements GenericMethods {
         return c;
 
     }
-
     //return supplier object
     public Supplier returnSupplier(String name)
     {
@@ -337,7 +267,6 @@ public class Database extends GUIMethods implements GenericMethods {
 
     }
 
-
     //return invoice array
     public ArrayList<Invoice> InvoiceArray(Customer c)
     {
@@ -350,17 +279,12 @@ public class Database extends GUIMethods implements GenericMethods {
         return  s.getPurchase_invoices();
     }
 
-
-
-    //return one invoice
-    public Invoice returnInvoice(Customer c, int index)
+    public ArrayList<Customer> customerArrayList()
     {
-        return c.getSales_invoices().get(index);
+        return this.customers;
     }
 
-
-
-
-
-
+    public ArrayList<Supplier> getSuppliers() {
+        return suppliers;
+    }
 }

@@ -36,6 +36,16 @@ public class Customer extends User{
         return this.sales_invoices;
     }
 
+    public String printInvoiceDetails(int index)
+    {
+        Invoice inc = this.sales_invoices.get(index);
+
+        String output = "Inf Ref : "+inc.GetInvRef()+"\n"+"Inf Total : "+"£"+inc.GetTotalAmount();
+        return output;
+
+
+    }
+
 
     public String getInvoiceRef(int index)
     {

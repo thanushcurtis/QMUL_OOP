@@ -1,12 +1,10 @@
-import com.sun.tools.javah.Gen;
-
 import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.TimeUnit;
+
 
 public class BusinessApp extends JFrame implements GenericMethods {
 
@@ -100,7 +98,7 @@ public class BusinessApp extends JFrame implements GenericMethods {
     public BusinessApp(){
 
         // Adding Customer's for testing
-        Customer c = new Customer("Thanush","Thanushcurtis@gmail.com", 0772L,"2, Pollard Road");
+        Customer c = new Customer("Thanush","Thanushcurtis@gmail.com", 7484611872L,"2, Pollard Road");
         Product p = new Product("Apple",3.4,2,15);
         Product p1 = new Product("Orange", 2.0,1,20);
         Supplier s = new Supplier("Jack","34, Prade Street","jack@gmail.com");
@@ -112,9 +110,6 @@ public class BusinessApp extends JFrame implements GenericMethods {
 
         //Intro();
         //ChooseFunction();
-
-
-
 
         //GUI workings
         JFrame MainFrame =  new JFrame();
@@ -155,7 +150,7 @@ public class BusinessApp extends JFrame implements GenericMethods {
                    @Override
                    public void actionPerformed(ActionEvent e) {
 
-                       if(database.GetCustomerDetailsGUI(win.get_name()))
+                       if(database.GetCustomerDetails(win.get_name()))
                        {
                            GenericMethods.print(win.get_name());
                            win.set_text("Customer found");
@@ -170,6 +165,7 @@ public class BusinessApp extends JFrame implements GenericMethods {
                                @Override
                                public void actionPerformed(ActionEvent e) {
                                    InvoicePanel invoicePanel =new InvoicePanel();
+                                   invoicePanel.activate();
                                    for(int i=0; i<database.InvoiceArray(c).size()-1; i++)
                                    {
                                        JButton InvoiceButton = new JButton(c.getInvoiceRef(i));
@@ -178,7 +174,20 @@ public class BusinessApp extends JFrame implements GenericMethods {
                                            public void actionPerformed(ActionEvent e) {
                                                if(e.getSource()==InvoiceButton)
                                                {
-                                                   //new panel with invoice details
+                                                   for (int i =0; i<c.getSales_invoices().size()-1; i++)
+                                                   {
+                                                       JButton btn = new JButton(c.getInvoiceRef(i));
+                                                       invoicePanel.AddButton(btn);
+                                                       int finalI = i;
+                                                       btn.addActionListener(new ActionListener() {
+                                                           @Override
+                                                           public void actionPerformed(ActionEvent e) {
+                                                               invoicePanel.print(c.printInvoiceDetails(finalI));
+                                                           }
+                                                       });
+
+                                                   }
+
                                                }
                                            }
                                        });
@@ -209,7 +218,7 @@ public class BusinessApp extends JFrame implements GenericMethods {
                     @Override
                     public void actionPerformed(ActionEvent e) {
 
-                        if(database.GetSupplierDetailsGUI(win.get_name()))
+                        if(database.GetSupplierDetails(win.get_name()))
                         {
                             win.set_text("Supplier found");
                             SupplierWindow supplierWindow = new SupplierWindow();
@@ -270,7 +279,7 @@ public class BusinessApp extends JFrame implements GenericMethods {
                         String email = win.email.getText();
                         String address = win.address.getText();
                         Long num = Long.parseLong(win.num.getText());
-                        if(database.setNewCustomerGUI(name,email,num,address))
+                        if(database.setNewCustomer(name,email,num,address))
                         {
                             win.set_text("Customer Successfully Created");
                         }
@@ -302,7 +311,7 @@ public class BusinessApp extends JFrame implements GenericMethods {
                         String email = win.email.getText();
                         String address = win.address.getText();
                         String type = win.num.getText();
-                        database.setNewSupplierGUI(name,email,type,address);
+                        database.setNewSupplier(name,email,type,address);
                     }
                 });
 
@@ -332,7 +341,7 @@ public class BusinessApp extends JFrame implements GenericMethods {
                         Double salesPrice = Double.parseDouble(win.email.getText());
                         Double costsPrice = Double.parseDouble(win.address.getText());
                         int stockcount = Integer.parseInt(win.num.getText());
-                        database.addProdctsGUI(name,salesPrice,costsPrice,stockcount);
+                        database.addProducts(name,salesPrice,costsPrice,stockcount);
 
                     }
                 });
@@ -385,6 +394,7 @@ public class BusinessApp extends JFrame implements GenericMethods {
         JButton AddInvoice = new JButton("Add Invoice");
         AddInvoice.setBounds(100,100,50,50);
         AddInvoice.addActionListener(new ActionListener() {
+            boolean status =false;
             @Override
             public void actionPerformed(ActionEvent e) {
                 InvoiceGUI  win = new InvoiceGUI();
@@ -392,6 +402,7 @@ public class BusinessApp extends JFrame implements GenericMethods {
                 win.addSubmitListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        status=true;
                         GenericMethods.print(win.get_selection());
                         String choice = win.get_selection();
                         if(choice.equals("c"))
@@ -399,9 +410,21 @@ public class BusinessApp extends JFrame implements GenericMethods {
                             String name = win.get_input_text();
                             GenericMethods.print(name);
                             Customer c = database.returnCustomer(name);
-                            while(c!=null)
+                            if(c!=null)
                             {
-                                GenericMethods.print("test");
+
+                                InvoiceMainGUI win =new InvoiceMainGUI();
+                                win.activate();
+                                Invoice newInvoice = new Invoice(c);
+                                win.returnAddInvoice().addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        newInvoice.InvoiceItemsGUI(win.getProduct_Array(),win.getGross_Array());
+                                        c.addInvoice(newInvoice);
+                                        System.out.println("Total amount :"+newInvoice.GetTotalAmount());
+                                    }
+                                });
+
 
                             }
                             win.set_text("Customer not found!!!");
@@ -415,7 +438,17 @@ public class BusinessApp extends JFrame implements GenericMethods {
                             Supplier s = database.returnSupplier(name);
                             while(s!=null)
                             {
-                                GenericMethods.print("test");
+                                InvoiceMainGUI win =new InvoiceMainGUI();
+                                win.activate();
+                                Invoice newInvoice = new Invoice(c);
+                                win.returnAddInvoice().addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        newInvoice.InvoiceItemsGUI(win.getProduct_Array(),win.getGross_Array());
+                                        s.addInvoice(newInvoice);
+                                        System.out.println("Total amount :"+newInvoice.GetTotalAmount());
+                                    }
+                                });
 
                             }
                             win.set_text("Supplier not found!!!");
@@ -423,11 +456,25 @@ public class BusinessApp extends JFrame implements GenericMethods {
                         }
                     }
                 });
+                if(status)
+                {
+                    win.dispose();
+                }
+
             }
+
+
         });
+
 
         JButton StopProgram = new JButton("Stop Program");
         StopProgram.setBounds(100,100,50,100);
+        StopProgram.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
 
 
         MainPanel.add(CustomerButton);

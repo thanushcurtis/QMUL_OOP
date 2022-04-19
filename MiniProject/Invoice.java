@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Invoice implements GenericMethods {
-    private final Date IssueDate;
-    private final Date DueDate;
+    private Date IssueDate;
+    private Date DueDate;
     private String InvRef;
     private double TotalAmount;
     private final ArrayList<Product> InvoiceItems = new ArrayList<>();
@@ -19,6 +19,11 @@ public class Invoice implements GenericMethods {
         SetInvRef(obj);
 
 
+    }
+
+    public Invoice(Object obj)
+    {
+        SetInvRef(obj);
     }
     public void SetInvRef(Object obj){
         final boolean c = obj instanceof Customer;
@@ -78,6 +83,7 @@ public class Invoice implements GenericMethods {
 
     }
 
+
     public void InvoiceItems(){
 
         boolean valid=false;
@@ -102,6 +108,32 @@ public class Invoice implements GenericMethods {
         }
 
 
+    }
+
+    public void InvoiceItemsGUI(ArrayList<Product> product,ArrayList<Double> gross){
+
+        for(int i=0 ; i<product.size()-1;i++)
+        {
+            this.InvoiceItems.add(product.get(i));
+            this.ItemsNetAmount.add(gross.get(i));
+        }
+
+        for(int i=0; i<InvoiceItems.size(); i++)
+        {
+            this.TotalAmount += ItemsNetAmount.get(i);
+        }
+
+    }
+
+
+    public void printnetamounts()
+    {
+        System.out.println("Size  :"+ItemsNetAmount.size());
+        System.out.println("Size item :"+InvoiceItems.size());
+        for (int i=0; i<ItemsNetAmount.size()-1;i++)
+        {
+            System.out.println(ItemsNetAmount.get(i)+"test");
+        }
     }
 
 
