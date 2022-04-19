@@ -71,4 +71,10 @@ public class Supplier extends User {
     {
         return this.total_owe;
     }
+
+    public String getInvoiceRef(int index)
+    {
+        return this.purchase_invoices.get(index).GetInvRef();
+    }
+
 }

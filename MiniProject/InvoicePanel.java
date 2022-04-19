@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 public class InvoicePanel extends InvoiceWindow{
     JPanel InvoiceButtonsPanel =new JPanel();
-    JTextArea output = new JTextArea();
+    JTextArea output = new JTextArea("",10,50);
 
     public InvoicePanel(){
 
