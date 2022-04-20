@@ -91,7 +91,7 @@ public class BusinessApp extends JFrame implements GenericMethods {
 
     public BusinessApp(){
 
-        // Adding Customer's for testing
+        // code for testing purposes
         Customer c = new Customer("Thanush","Thanushcurtis@gmail.com", 7484611872L,"2, Pollard Road");
         Product p = new Product("Apple",3.4,2,15);
         Product p1 = new Product("Orange", 2.0,1,20);
@@ -123,393 +123,397 @@ public class BusinessApp extends JFrame implements GenericMethods {
             ChooseFunction();
         }
         else if(user_input==2){
-            //GUI workings
-            JFrame MainFrame =  new JFrame();
-            MainFrame.setTitle("TK's Business");
-            MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            MainFrame.setSize(600,400);
-            MainFrame.setLocationRelativeTo(null);
-            MainFrame.setResizable(false);
+
+
+        }
+
+        //GUI workings
+        JFrame MainFrame =  new JFrame();
+        MainFrame.setTitle("TK's Business");
+        MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        MainFrame.setSize(600,400);
+        MainFrame.setLocationRelativeTo(null);
+        MainFrame.setResizable(false);
 
 
 
-            JLabel title_label = new JLabel();
-            title_label.setText("Welcome to TK's Business");
-            title_label.setHorizontalAlignment(JLabel.CENTER);
-            title_label.setVerticalAlignment(JLabel.TOP);
-            title_label.setFont(new Font("MV Boli", Font.BOLD,20));
-            title_label.setBorder(createRootPane().getBorder());
-            MainFrame.getContentPane().add(BorderLayout.NORTH,title_label);
-            MainFrame.getContentPane().setBackground(new Color(242, 242, 242));
+        JLabel title_label = new JLabel();
+        title_label.setText("Welcome to TK's Business");
+        title_label.setHorizontalAlignment(JLabel.CENTER);
+        title_label.setVerticalAlignment(JLabel.TOP);
+        title_label.setFont(new Font("MV Boli", Font.BOLD,20));
+        title_label.setBorder(createRootPane().getBorder());
+        MainFrame.getContentPane().add(BorderLayout.NORTH,title_label);
+        MainFrame.getContentPane().setBackground(new Color(242, 242, 242));
 
 
 
-            JPanel MainPanel = new JPanel();
-            MainPanel.setLayout(new GridLayout(4,3,20,40));
-            MainPanel.setVisible(true);
-            MainFrame.getContentPane().add(BorderLayout.CENTER,MainPanel);
+        JPanel MainPanel = new JPanel();
+        MainPanel.setLayout(new GridLayout(4,3,20,40));
+        MainPanel.setVisible(true);
+        MainFrame.getContentPane().add(BorderLayout.CENTER,MainPanel);
 
 
-            JButton CustomerButton  = new JButton("View Customers");
-            CustomerButton.setBounds(100,100,50,50);
-            CustomerButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    View_Window win = new View_Window();
-                    win.activate();
-                    win.setSize(250,200);
-                    win.set_text("");
-                    win.addSubmitListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
+        JButton CustomerButton  = new JButton("View Customers");
+        CustomerButton.setBounds(100,100,50,50);
+        CustomerButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                View_Window win = new View_Window();
+                win.activate();
+                win.setSize(250,200);
+                win.set_text("");
+                win.addSubmitListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
 
-                            if(database.GetCustomerDetails(win.get_name()))
-                            {
-                                GenericMethods.print(win.get_name());
-                                win.set_text("Customer found");
-                                DetailsWindow detailsWindow = new DetailsWindow();
-                                detailsWindow.activate();
-                                Customer c = database.returnCustomer(win.get_name());
-                                detailsWindow.set_text(database.GetCustomerName(c), detailsWindow.name );
-                                detailsWindow.set_text(database.GetCustomerEmail(c),detailsWindow.email);
-                                detailsWindow.set_text(database.GetCustomerAddress(c),detailsWindow.address);
-                                detailsWindow.set_double(database.GetCustomerDue(c),detailsWindow.totalDue);
-                                detailsWindow.addSubmitListener(new ActionListener() {
-                                    @Override
-                                    public void actionPerformed(ActionEvent e) {
-                                        InvoicePanel invoicePanel =new InvoicePanel();
-                                        invoicePanel.activate();
-                                        for(int i=0; i<database.InvoiceArray(c).size()-1; i++)
-                                        {
-                                            JButton InvoiceButton = new JButton(c.getInvoiceRef(i));
-                                            InvoiceButton.addActionListener(new ActionListener() {
-                                                @Override
-                                                public void actionPerformed(ActionEvent e) {
-                                                    if(e.getSource()==InvoiceButton)
-                                                    {
-                                                        for (int i =0; i<c.getSales_invoices().size()-1; i++)
-                                                        {
-                                                            JButton btn = new JButton(c.getInvoiceRef(i));
-                                                            invoicePanel.AddButton(btn);
-                                                            int finalI = i;
-                                                            btn.addActionListener(new ActionListener() {
-                                                                @Override
-                                                                public void actionPerformed(ActionEvent e) {
-                                                                    System.out.println(c.printInvoiceDetails(finalI)+"Test");
-                                                                    invoicePanel.print(c.printInvoiceDetails(finalI));
-                                                                }
-                                                            });
-
-                                                        }
-
-                                                    }
-                                                }
-                                            });
-                                            invoicePanel.getContentPane().add(InvoiceButton);
-                                        }
-                                    }
-                                });
-                            }
-                            else
-                            {
-                                win.set_text("Customer not found");
-                            }
-                        }
-                    });
-
-                }
-            });
-
-            JButton SupplierButton  = new JButton("View Suppliers");
-            SupplierButton.setBounds(100,100,50,50);
-            SupplierButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    View_Window win = new View_Window();
-                    win.activate();
-                    win.setSize(250,200);
-                    win.label.setText("Enter Supplier Name ");
-                    win.addSubmitListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-
-                            if(database.GetSupplierDetails(win.get_name()))
-                            {
-                                win.set_text("Supplier found");
-                                SupplierWindow supplierWindow = new SupplierWindow();
-                                supplierWindow.activate();
-                                Supplier s = database.returnSupplier(win.get_name());
-                                supplierWindow.set_text(database.GetSupplierName(s),supplierWindow.name);
-                                supplierWindow.set_text(database.GetSupplierType(s),supplierWindow.type);
-                                supplierWindow.set_text(database.GetSupplierEmail(s),supplierWindow.email);
-                                supplierWindow.set_text(database.GetSupplierAddress(s),supplierWindow.address);
-                                supplierWindow.set_double(database.GetSupplierOwe(s),supplierWindow.totalDue);
-                                supplierWindow.addSubmitListener(new ActionListener() {
-                                    @Override
-                                    public void actionPerformed(ActionEvent e) {
-                                        InvoicePanel invoicePanel =new InvoicePanel();
-                                        GenericMethods.print(("test"));
-                                        for(int i=0; i<database.InvoiceArraySupplier(database.returnSupplier(win.get_name())).size()-1; i++)
-                                        {
-                                            JButton InvoiceButton = new JButton(database.returnCustomer(win.get_name()).getInvoiceRef(i));
-                                            InvoiceButton.addActionListener(new ActionListener() {
-                                                @Override
-                                                public void actionPerformed(ActionEvent e) {
-                                                    if(e.getSource()==InvoiceButton)
-                                                    {
-                                                        for (int i =0; i<c.getSales_invoices().size()-1; i++)
-                                                        {
-                                                            JButton btn = new JButton(s.getInvoiceRef(i));
-                                                            invoicePanel.AddButton(btn);
-                                                            int finalI = i;
-                                                            btn.addActionListener(new ActionListener() {
-                                                                @Override
-                                                                public void actionPerformed(ActionEvent e) {
-                                                                    System.out.println(c.printInvoiceDetails(finalI)+"Test");
-                                                                    invoicePanel.print(c.printInvoiceDetails(finalI));
-                                                                }
-                                                            });
-
-                                                        }
-
-                                                    }
-                                                }
-                                            });
-                                            invoicePanel.getContentPane().add(InvoiceButton);
-                                        }
-                                    }
-                                });
-                            }
-                            else
-                            {
-                                win.set_text("Supplier not found");
-                                win.clear();
-                            }
-                        }
-                    });
-
-                }
-            });
-
-
-            JButton EnterCustomer =  new JButton("Enter Customer");
-            EnterCustomer.setBounds(100,100,50,50);
-            EnterCustomer.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    InputWindow win = new InputWindow();
-                    win.activate();
-                    win.setSize(350,400);
-                    win.setTitle("Enter New Customer");
-                    win.addSubmitListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            String name = win.name.getText();
-                            String email = win.email.getText();
-                            String address = win.address.getText();
-                            Long num = Long.parseLong(win.num.getText());
-                            if(database.setNewCustomer(name,email,num,address))
-                            {
-                                win.set_text("Customer Successfully Created");
-                            }
-                            else
-                            {
-                                win.set_text("Error");
-                            }
-                        }
-                    });
-                    //win.dispose();
-                }
-            });
-
-
-            JButton EnterSupplier = new JButton("Enter Supplier");
-            EnterSupplier.setBounds(100,100,50,50);
-            EnterSupplier.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    InputWindow win = new InputWindow();
-                    win.activate();
-                    win.setSize(350,400);
-                    win.setTitle("Enter New Supplier");
-                    win.setLabel("Type");
-                    win.addSubmitListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            String name = win.name.getText();
-                            String email = win.email.getText();
-                            String address = win.address.getText();
-                            String type = win.num.getText();
-                            database.setNewSupplier(name,email,type,address);
-                        }
-                    });
-
-                    //win.dispose();
-                }
-            });
-
-
-            JButton EnterProducts = new JButton("Enter Products");
-            EnterProducts.setBounds(100,100,50,50);
-            EnterProducts.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    InputWindow win = new InputWindow();
-                    win.activate();
-                    win.setTitle("Products");
-                    JButton ViewProduct = new JButton("View Product");
-                    win.setLabelGeneral("Sales Price ",win.Email);
-                    win.setLabelGeneral("Costs Price ",win.Address);
-                    win.setLabelGeneral("Stock Count ",win.Num);
-                    win.removeArea();
-                    win.add(ViewProduct);
-                    win.addSubmitListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            String name = win.name.getText();
-                            Double salesPrice = Double.parseDouble(win.email.getText());
-                            Double costsPrice = Double.parseDouble(win.address.getText());
-                            int stockcount = Integer.parseInt(win.num.getText());
-                            database.addProducts(name,salesPrice,costsPrice,stockcount);
-
-                        }
-                    });
-                    ViewProduct.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            View_Window win = new View_Window();
-                            win.activate();
-                            win.setSize(250,200);
-                            win.setLabelTitle("Enter Product Name ");
-                            win.addSubmitListener(new ActionListener() {
+                        if(database.GetCustomerDetails(win.get_name()))
+                        {
+                            GenericMethods.print(win.get_name());
+                            win.set_text("Customer found");
+                            DetailsWindow detailsWindow = new DetailsWindow();
+                            detailsWindow.activate();
+                            Customer c = database.returnCustomer(win.get_name());
+                            detailsWindow.set_text(database.GetCustomerName(c), detailsWindow.name );
+                            detailsWindow.set_text(database.GetCustomerEmail(c),detailsWindow.email);
+                            detailsWindow.set_text(database.GetCustomerAddress(c),detailsWindow.address);
+                            detailsWindow.set_double(database.GetCustomerDue(c),detailsWindow.totalDue);
+                            detailsWindow.addSubmitListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
-                                    win.print_output("");
-                                    String product_name = win.get_name();
-                                    Product p = database.getProductByName(product_name);
-                                    if(p!=null)
+                                    InvoicePanel invoicePanel =new InvoicePanel();
+                                    invoicePanel.activate();
+                                    for(int i=0; i<database.InvoiceArray(c).size()-1; i++)
                                     {
-                                        win.addSubmitListener(new ActionListener() {
+                                        JButton InvoiceButton = new JButton(c.getInvoiceRef(i));
+                                        InvoiceButton.addActionListener(new ActionListener() {
                                             @Override
                                             public void actionPerformed(ActionEvent e) {
-                                                InputWindow win = new InputWindow();
-                                                win.activate();
-                                                win.setTitle("Product Details");
-                                                win.setLabelGeneral("Sales Price ",win.Email);
-                                                win.setLabelGeneral("Costs Price ",win.Address);
-                                                win.setLabelGeneral("Stock Count ",win.Num);
-                                                win.removeArea();
-                                                win.name.setText(p.getName());
-                                                win.email.setText("£"+p.getSalesPrice());
-                                                win.address.setText("£"+p.getCostsPrice());
-                                                win.num.setText(String.valueOf(p.getStockCount()));
-                                                win.removeButton();
+                                                if(e.getSource()==InvoiceButton)
+                                                {
+                                                    for (int i =0; i<c.getSales_invoices().size()-1; i++)
+                                                    {
+                                                        JButton btn = new JButton(c.getInvoiceRef(i));
+                                                        invoicePanel.AddButton(btn);
+                                                        int finalI = i;
+                                                        btn.addActionListener(new ActionListener() {
+                                                            @Override
+                                                            public void actionPerformed(ActionEvent e) {
+                                                                System.out.println(c.printInvoiceDetails(finalI)+"Test");
+                                                                invoicePanel.print(c.printInvoiceDetails(finalI));
+                                                            }
+                                                        });
+
+                                                    }
+
+                                                }
                                             }
                                         });
+                                        invoicePanel.getContentPane().add(InvoiceButton);
                                     }
-                                    else
-                                    {
-                                        win.print_output("Product Not Found");
-                                        win.clear();
-                                    }
-                                    win.clear();
                                 }
                             });
                         }
-                    });
-                }
-            });
-
-            JButton AddInvoice = new JButton("Add Invoice");
-            AddInvoice.setBounds(100,100,50,50);
-            AddInvoice.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    InvoiceGUI  win = new InvoiceGUI();
-                    win.activate();
-                    win.addSubmitListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            GenericMethods.print(win.get_selection());
-                            String choice = win.get_selection();
-                            if(choice.equals("c"))
-                            {
-                                String name = win.get_input_text();
-                                GenericMethods.print(name);
-                                Customer c = database.returnCustomer(name);
-                                if(c!=null)
-                                {
-
-                                    InvoiceMainGUI win =new InvoiceMainGUI();
-                                    win.activate();
-                                    Invoice newInvoice = new Invoice(c);
-                                    win.returnAddInvoice().addActionListener(new ActionListener() {
-                                        @Override
-                                        public void actionPerformed(ActionEvent e) {
-                                            newInvoice.InvoiceItemsGUI(win.getProduct_Array(),win.getGross_Array());
-                                            c.addInvoice(newInvoice);
-                                            System.out.println("Total amount :"+newInvoice.GetTotalAmount());
-                                            win.dispose();
-                                        }
-                                    });
-
-
-                                }
-                                win.set_text("Customer not found!!!");
-                                win.Name.setText("");
-
-                            }
-                            else if(choice.equals("s"))
-                            {
-                                String name = win.get_input_text();
-                                GenericMethods.print(name);
-                                Supplier s = database.returnSupplier(name);
-                                while(s!=null)
-                                {
-                                    InvoiceMainGUI win =new InvoiceMainGUI();
-                                    win.activate();
-                                    Invoice newInvoice = new Invoice(c);
-                                    win.returnAddInvoice().addActionListener(new ActionListener() {
-                                        @Override
-                                        public void actionPerformed(ActionEvent e) {
-                                            newInvoice.InvoiceItemsGUI(win.getProduct_Array(),win.getGross_Array());
-                                            s.addInvoice(newInvoice);
-                                            System.out.println("Total amount :"+newInvoice.GetTotalAmount());
-                                        }
-                                    });
-
-                                }
-                                win.set_text("Supplier not found!!!");
-                                win.Name.setText("");
-                            }
+                        else
+                        {
+                            win.set_text("Customer not found");
                         }
-                    });
-                }
+                    }
+                });
+
+            }
+        });
+
+        JButton SupplierButton  = new JButton("View Suppliers");
+        SupplierButton.setBounds(100,100,50,50);
+        SupplierButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                View_Window win = new View_Window();
+                win.activate();
+                win.setSize(250,200);
+                win.label.setText("Enter Supplier Name ");
+                win.addSubmitListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        if(database.GetSupplierDetails(win.get_name()))
+                        {
+                            win.set_text("Supplier found");
+                            SupplierWindow supplierWindow = new SupplierWindow();
+                            supplierWindow.activate();
+                            Supplier s = database.returnSupplier(win.get_name());
+                            supplierWindow.set_text(database.GetSupplierName(s),supplierWindow.name);
+                            supplierWindow.set_text(database.GetSupplierType(s),supplierWindow.type);
+                            supplierWindow.set_text(database.GetSupplierEmail(s),supplierWindow.email);
+                            supplierWindow.set_text(database.GetSupplierAddress(s),supplierWindow.address);
+                            supplierWindow.set_double(database.GetSupplierOwe(s),supplierWindow.totalDue);
+                            supplierWindow.addSubmitListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    InvoicePanel invoicePanel =new InvoicePanel();
+                                    GenericMethods.print(("test"));
+                                    for(int i=0; i<database.InvoiceArraySupplier(database.returnSupplier(win.get_name())).size()-1; i++)
+                                    {
+                                        JButton InvoiceButton = new JButton(database.returnCustomer(win.get_name()).getInvoiceRef(i));
+                                        InvoiceButton.addActionListener(new ActionListener() {
+                                            @Override
+                                            public void actionPerformed(ActionEvent e) {
+                                                if(e.getSource()==InvoiceButton)
+                                                {
+                                                    for (int i =0; i<c.getSales_invoices().size()-1; i++)
+                                                    {
+                                                        JButton btn = new JButton(s.getInvoiceRef(i));
+                                                        invoicePanel.AddButton(btn);
+                                                        int finalI = i;
+                                                        btn.addActionListener(new ActionListener() {
+                                                            @Override
+                                                            public void actionPerformed(ActionEvent e) {
+                                                                System.out.println(c.printInvoiceDetails(finalI)+"Test");
+                                                                invoicePanel.print(c.printInvoiceDetails(finalI));
+                                                            }
+                                                        });
+
+                                                    }
+
+                                                }
+                                            }
+                                        });
+                                        invoicePanel.getContentPane().add(InvoiceButton);
+                                    }
+                                }
+                            });
+                        }
+                        else
+                        {
+                            win.set_text("Supplier not found");
+                            win.clear();
+                        }
+                    }
+                });
+
+            }
+        });
 
 
-            });
+        JButton EnterCustomer =  new JButton("Enter Customer");
+        EnterCustomer.setBounds(100,100,50,50);
+        EnterCustomer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                InputWindow win = new InputWindow();
+                win.activate();
+                win.setSize(350,400);
+                win.setTitle("Enter New Customer");
+                win.addSubmitListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String name = win.name.getText();
+                        String email = win.email.getText();
+                        String address = win.address.getText();
+                        Long num = Long.parseLong(win.num.getText());
+                        if(database.setNewCustomer(name,email,num,address))
+                        {
+                            win.set_text("Customer Successfully Created");
+                        }
+                        else
+                        {
+                            win.set_text("Error");
+                        }
+                    }
+                });
+                //win.dispose();
+            }
+        });
 
 
-            JButton StopProgram = new JButton("Stop Program");
-            StopProgram.setBounds(100,100,50,100);
-            StopProgram.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.exit(0);
-                }
-            });
+        JButton EnterSupplier = new JButton("Enter Supplier");
+        EnterSupplier.setBounds(100,100,50,50);
+        EnterSupplier.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                InputWindow win = new InputWindow();
+                win.activate();
+                win.setSize(350,400);
+                win.setTitle("Enter New Supplier");
+                win.setLabel("Type");
+                win.addSubmitListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String name = win.name.getText();
+                        String email = win.email.getText();
+                        String address = win.address.getText();
+                        String type = win.num.getText();
+                        database.setNewSupplier(name,email,type,address);
+                    }
+                });
+
+                //win.dispose();
+            }
+        });
 
 
-            MainPanel.add(CustomerButton);
-            MainPanel.add(SupplierButton);
-            MainPanel.add(EnterCustomer);
-            MainPanel.add(EnterSupplier);
-            MainPanel.add(EnterProducts);
-            MainPanel.add(AddInvoice);
-            MainFrame.add(BorderLayout.SOUTH,StopProgram);
+        JButton EnterProducts = new JButton("Enter Products");
+        EnterProducts.setBounds(100,100,50,50);
+        EnterProducts.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                InputWindow win = new InputWindow();
+                win.activate();
+                win.setTitle("Products");
+                JButton ViewProduct = new JButton("View Product");
+                win.setLabelGeneral("Sales Price ",win.Email);
+                win.setLabelGeneral("Costs Price ",win.Address);
+                win.setLabelGeneral("Stock Count ",win.Num);
+                win.removeArea();
+                win.add(ViewProduct);
+                win.addSubmitListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String name = win.name.getText();
+                        Double salesPrice = Double.parseDouble(win.email.getText());
+                        Double costsPrice = Double.parseDouble(win.address.getText());
+                        int stockcount = Integer.parseInt(win.num.getText());
+                        database.addProducts(name,salesPrice,costsPrice,stockcount);
+
+                    }
+                });
+                ViewProduct.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        View_Window win = new View_Window();
+                        win.activate();
+                        win.setSize(250,200);
+                        win.setLabelTitle("Enter Product Name ");
+                        win.addSubmitListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                win.print_output("");
+                                String product_name = win.get_name();
+                                Product p = database.getProductByName(product_name);
+                                if(p!=null)
+                                {
+                                    win.addSubmitListener(new ActionListener() {
+                                        @Override
+                                        public void actionPerformed(ActionEvent e) {
+                                            InputWindow win = new InputWindow();
+                                            win.activate();
+                                            win.setTitle("Product Details");
+                                            win.setLabelGeneral("Sales Price ",win.Email);
+                                            win.setLabelGeneral("Costs Price ",win.Address);
+                                            win.setLabelGeneral("Stock Count ",win.Num);
+                                            win.removeArea();
+                                            win.name.setText(p.getName());
+                                            win.email.setText("£"+p.getSalesPrice());
+                                            win.address.setText("£"+p.getCostsPrice());
+                                            win.num.setText(String.valueOf(p.getStockCount()));
+                                            win.removeButton();
+                                        }
+                                    });
+                                }
+                                else
+                                {
+                                    win.print_output("Product Not Found");
+                                    win.clear();
+                                }
+                                win.clear();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        JButton AddInvoice = new JButton("Add Invoice");
+        AddInvoice.setBounds(100,100,50,50);
+        AddInvoice.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                InvoiceGUI  win = new InvoiceGUI();
+                win.activate();
+                win.addSubmitListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        GenericMethods.print(win.get_selection());
+                        String choice = win.get_selection();
+                        if(choice.equals("c"))
+                        {
+                            String name = win.get_input_text();
+                            GenericMethods.print(name);
+                            Customer c = database.returnCustomer(name);
+                            if(c!=null)
+                            {
+
+                                InvoiceMainGUI win =new InvoiceMainGUI();
+                                win.activate();
+                                Invoice newInvoice = new Invoice(c);
+                                win.returnAddInvoice().addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        newInvoice.InvoiceItemsGUI(win.getProduct_Array(),win.getGross_Array());
+                                        c.addInvoice(newInvoice);
+                                        System.out.println("Total amount :"+newInvoice.GetTotalAmount());
+                                        win.dispose();
+                                    }
+                                });
 
 
-            MainFrame.setVisible(true);
+                            }
+                            win.set_text("Customer not found!!!");
+                            win.Name.setText("");
 
-        }
+                        }
+                        else if(choice.equals("s"))
+                        {
+                            String name = win.get_input_text();
+                            GenericMethods.print(name);
+                            Supplier s = database.returnSupplier(name);
+                            while(s!=null)
+                            {
+                                InvoiceMainGUI win =new InvoiceMainGUI();
+                                win.activate();
+                                Invoice newInvoice = new Invoice(c);
+                                win.returnAddInvoice().addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        newInvoice.InvoiceItemsGUI(win.getProduct_Array(),win.getGross_Array());
+                                        s.addInvoice(newInvoice);
+                                        System.out.println("Total amount :"+newInvoice.GetTotalAmount());
+                                    }
+                                });
+
+                            }
+                            win.set_text("Supplier not found!!!");
+                            win.Name.setText("");
+                        }
+                    }
+                });
+            }
+
+
+        });
+
+
+
+
+        JButton StopProgram = new JButton("Stop Program");
+        StopProgram.setBounds(100,100,50,100);
+        StopProgram.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+
+
+        MainPanel.add(CustomerButton);
+        MainPanel.add(SupplierButton);
+        MainPanel.add(EnterCustomer);
+        MainPanel.add(EnterSupplier);
+        MainPanel.add(EnterProducts);
+        MainPanel.add(AddInvoice);
+        MainFrame.add(BorderLayout.SOUTH,StopProgram);
+
+
+        MainFrame.setVisible(true);
 
 
     }
