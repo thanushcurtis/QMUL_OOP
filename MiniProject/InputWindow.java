@@ -27,6 +27,8 @@ public class InputWindow extends JFrame{
 
    public InputWindow(){
 
+       //inputwindow
+
        this.setSize(400,400);
        this.setLayout(new GridLayout(5,2,20,30));
        Name.setHorizontalAlignment(JLabel.LEFT);
